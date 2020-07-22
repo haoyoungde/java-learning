@@ -3,20 +3,30 @@ package com.haoyoungde;
 import org.rocksdb.Options;
 import org.rocksdb.RocksDB;
 import org.rocksdb.RocksDBException;
-import org.rocksdb.WriteOptions;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 public class Main {
+    private static final int _1MB = 1024 * 1024;
+    byte[] bigSize = new byte[2 * _1MB];
+    public Object instance = null;
+
     public static void main(String[] args) {
         try (
-                final Options options = new Options().setCreateIfMissing(true);
-                final RocksDB rocksdb = RocksDB.open("rocksdb")
+                Options options = new Options().setCreateIfMissing(true);
+                RocksDB rocksdb = RocksDB.open(options, "db")
         ){
-            byte[] key = new byte[1024];
-            byte[] value = new byte[1024];
-            rocksdb.put(key, value);
+            for(int i = 0; i < Integer.MAX_VALUE; i++){
+                byte[] key = new byte[1024];
+                byte[] value = new byte[1024];
+                rocksdb.put(key, value);
+                Main a = new Main();
+                Main b = new Main();
+                a.instance = b;
+                b.instance = a;
+                a=null;
+                b=null;
+            }
             System.in.read();
         } catch (RocksDBException | IOException e) {
                 e.printStackTrace();
