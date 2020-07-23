@@ -14,16 +14,17 @@ public class Main {
     byte[] bigSize = new byte[2 * _1MB];
     public Object instance = null;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         try (
                 Options options = new Options().setCreateIfMissing(true);
                 RocksDB rocksdb = RocksDB.open(options, "db")
         ){
+            options.setMaxOpenFiles(1);
             ExecutorService executorService = Executors.newFixedThreadPool(10);
             executorService.execute(() -> {
-                for(int i = 0; i < 500000; i++){
-                    byte[] key = new byte[1024];
-                    byte[] value = new byte[1024];
+                for(int i = 0; i < 5000000; i++){
+                    byte[] key = new byte[10240];
+                    byte[] value = new byte[10240];
                     try {
                         rocksdb.put(key, value);
                     } catch (RocksDBException e) {
@@ -38,12 +39,23 @@ public class Main {
                 }
             });
             executorService.shutdown();
-            while (!executorService.awaitTermination(1, TimeUnit.MINUTES)){
+            while (!executorService.awaitTermination(1, TimeUnit.MINUTES)) {
                 System.out.println("等待任务结束");
             }
-            System.in.read();
-        } catch (RocksDBException | IOException | InterruptedException e) {
+        } catch (Exception e) {
                 e.printStackTrace();
         }
+
+        System.out.println("执行结束, 按下回车清理db");
+        System.in.read();
+
+        try(final Options options = new Options()){
+            System.out.println("清理db");
+            RocksDB.destroyDB("db", options);
+        } catch (RocksDBException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("清理完毕");
     }
 }
