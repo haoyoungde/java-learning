@@ -8,6 +8,7 @@
         <module>path</module>
         <module>rocksdb</module>
         <module>joda-money</module>
+      <module>jsonb</module>
     </modules>
 
     <parent>
