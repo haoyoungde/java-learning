@@ -1,4 +1,4 @@
-package com.haoyoungde.json.book;
+package com.haoyoungde.jsonb.book;
 
 public class Book {
     private String id;

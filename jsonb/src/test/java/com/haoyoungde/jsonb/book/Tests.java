@@ -1,9 +1,7 @@
 package com.haoyoungde.jsonb.book;
 
-import com.haoyoungde.json.book.Book;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
-import jakarta.json.bind.JsonbConfig;
 import org.junit.Assert;
 import org.junit.Test;
 
