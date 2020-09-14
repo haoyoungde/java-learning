@@ -9,6 +9,7 @@
         <module>rocksdb</module>
         <module>joda-money</module>
       <module>jsonb</module>
+      <module>extension-point</module>
     </modules>
 
     <parent>
