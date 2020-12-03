@@ -10,6 +10,8 @@
         <module>joda-money</module>
       <module>jsonb</module>
       <module>extension-point</module>
+      <module>mapstruct</module>
+        <module>guava</module>
     </modules>
 
     <parent>
